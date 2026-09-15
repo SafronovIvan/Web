@@ -31,8 +31,10 @@ function renderProducts() {
     productsEl.innerHTML = "";
 
     products.forEach(product => {
+        const inCartQty = cart[product.id] || 0;
         const article = document.createElement("article");
         article.className = "product";
+        article.dataset.id = product.id;
 
         article.innerHTML = `
             <img class="product__image"
@@ -43,14 +45,41 @@ function renderProducts() {
             <div class="product__body">
                 <h3 class="product__name">${product.name}</h3>
                 <p class="product__price">${product.price.toLocaleString("ru-RU")} ₽</p>
-                <button class="btn btn--primary product__btn" data-id="${product.id}">
-                    Добавить в корзину
-                </button>
+                <div class="product__actions" data-actions="${product.id}">
+                    ${renderProductAction(product.id, inCartQty)}
+                </div>
             </div>
         `;
 
         productsEl.appendChild(article);
     });
+}
+
+// Возвращает HTML для блока действий товара (кнопка или счётчик)
+function renderProductAction(id, qty) {
+    if (qty === 0) {
+        return `
+            <button class="btn btn--primary product__btn" data-add="${id}">
+                Добавить в корзину
+            </button>
+        `;
+    }
+
+    return `
+        <div class="product__counter">
+            <button class="product__counter-btn" data-minus="${id}" aria-label="Уменьшить">−</button>
+            <span class="product__counter-text">В корзине: ${qty}</span>
+            <button class="product__counter-btn" data-plus="${id}" aria-label="Увеличить">+</button>
+        </div>
+    `;
+}
+
+// Обновляет только блок действий конкретного товара
+function updateProductAction(id) {
+    const block = document.querySelector(`[data-actions="${id}"]`);
+    if (!block) return;
+    const qty = cart[id] || 0;
+    block.innerHTML = renderProductAction(id, qty);
 }
 
 // ==================== РЕНДЕР КОРЗИНЫ ====================
@@ -138,30 +167,58 @@ function closeModal() {
 
 // ==================== ОБРАБОТЧИКИ ====================
 
+// Клики по каталогу: добавить / + / −
 productsEl.addEventListener("click", (e) => {
-    const btn = e.target.closest(".product__btn");
-    if (!btn) return;
+    const addBtn = e.target.closest("[data-add]");
+    const plusBtn = e.target.closest(".product__counter-btn[data-plus]");
+    const minusBtn = e.target.closest(".product__counter-btn[data-minus]");
 
-    const id = Number(btn.dataset.id);
-    addToCart(id);
-    renderCart();
-    showToast("Товар добавлен в корзину");
+    if (addBtn) {
+        const id = Number(addBtn.dataset.add);
+        addToCart(id);
+        updateProductAction(id);
+        renderCart();
+        showToast("Товар добавлен в корзину");
+        return;
+    }
+
+    if (plusBtn) {
+        const id = Number(plusBtn.dataset.plus);
+        increaseQty(id);
+        updateProductAction(id);
+        renderCart();
+        return;
+    }
+
+    if (minusBtn) {
+        const id = Number(minusBtn.dataset.minus);
+        decreaseQty(id);
+        updateProductAction(id);
+        renderCart();
+        return;
+    }
 });
 
+// Клики внутри корзины: + / − / удалить
 cartListEl.addEventListener("click", (e) => {
     const target = e.target;
+    let id = null;
 
     if (target.dataset.plus) {
-        increaseQty(Number(target.dataset.plus));
+        id = Number(target.dataset.plus);
+        increaseQty(id);
     } else if (target.dataset.minus) {
-        decreaseQty(Number(target.dataset.minus));
+        id = Number(target.dataset.minus);
+        decreaseQty(id);
     } else if (target.dataset.remove) {
-        removeFromCart(Number(target.dataset.remove));
+        id = Number(target.dataset.remove);
+        removeFromCart(id);
     } else {
         return;
     }
 
     renderCart();
+    if (id !== null) updateProductAction(id);
 });
 
 cartBtn.addEventListener("click", openCart);
@@ -181,6 +238,7 @@ modal.addEventListener("click", (e) => {
     }
 });
 
+// Отправка формы заказа
 orderForm.addEventListener("submit", (e) => {
     e.preventDefault();
 
@@ -220,6 +278,7 @@ orderForm.addEventListener("submit", (e) => {
     showToast("Заказ создан!");
     orderForm.reset();
     clearCart();
+    renderProducts();
     renderCart();
 
     setTimeout(closeModal, 1500);
