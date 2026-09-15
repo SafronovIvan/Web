@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Интернет-магазин</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+    <!-- ==================== ШАПКА ==================== -->
+    <header class="header">
+        <div class="container header__inner">
+            <a href="#" class="logo">🛍️ MyShop</a>
+
+            <button class="cart-btn" id="cart-btn" aria-label="Открыть корзину">
+                🛒 Корзина
+                <span class="cart-btn__count" id="cart-count">0</span>
+            </button>
+        </div>
+    </header>
+
+    <!-- ==================== ОСНОВНОЙ КОНТЕНТ ==================== -->
+    <main class="main">
+
+        <!-- Каталог товаров -->
+        <section class="catalog container" aria-labelledby="catalog-title">
+            <h1 id="catalog-title" class="catalog__title">Каталог товаров</h1>
+
+            <!-- Сетка товаров -->
+            <div class="products" id="products">
+                <!-- Карточки товаров будут добавлены через JavaScript -->
+            </div>
+        </section>
+
+        <!-- ==================== КОРЗИНА (боковая панель) ==================== -->
+        <aside class="cart" id="cart" aria-labelledby="cart-title">
+            <div class="cart__header">
+                <h2 id="cart-title" class="cart__title">Корзина</h2>
+                <button class="cart__close" id="cart-close" aria-label="Закрыть корзину">✕</button>
+            </div>
+
+            <!-- Список товаров в корзине -->
+            <ul class="cart__list" id="cart-list">
+                <!-- Элементы корзины добавляются через JavaScript -->
+            </ul>
+
+            <!-- Итоговая сумма -->
+            <div class="cart__footer">
+                <p class="cart__total">
+                    Итого: <span id="cart-total">0</span> ₽
+                </p>
+                <button class="btn btn--primary" id="checkout-btn">
+                    Оформить заказ
+                </button>
+            </div>
+        </aside>
+
+        <!-- Затемнение фона при открытой корзине -->
+        <div class="overlay" id="overlay"></div>
+
+        <!-- ==================== МОДАЛЬНОЕ ОКНО ЗАКАЗА ==================== -->
+        <div class="modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+            <div class="modal__content">
+                <button class="modal__close" id="modal-close" aria-label="Закрыть форму">✕</button>
+
+                <h2 id="modal-title" class="modal__title">Оформление заказа</h2>
+
+                <form class="form" id="order-form" novalidate>
+                    <div class="form__group">
+                        <label for="name">Имя *</label>
+                        <input type="text" id="name" name="name" required placeholder="Иван">
+                    </div>
+
+                    <div class="form__group">
+                        <label for="surname">Фамилия *</label>
+                        <input type="text" id="surname" name="surname" required placeholder="Иванов">
+                    </div>
+
+                    <div class="form__group">
+                        <label for="address">Адрес доставки *</label>
+                        <input type="text" id="address" name="address" required placeholder="г. Москва, ул. Ленина, д. 1">
+                    </div>
+
+                    <div class="form__group">
+                        <label for="phone">Контактный телефон *</label>
+                        <input type="tel" id="phone" name="phone" required placeholder="+7 (999) 123-45-67">
+                    </div>
+
+                    <button type="submit" class="btn btn--primary btn--full">
+                        Создать заказ
+                    </button>
+                </form>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- ==================== ПОДВАЛ ==================== -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 MyShop. Все права защищены.</p>
+        </div>
+    </footer>
+
+    <!-- ==================== ПОДКЛЮЧЕНИЕ JS ==================== -->
+    <script src="js/data.js"></script>
+    <script src="js/cart.js"></script>
+    <script src="js/main.js"></script>
+
+</body>
+</html>

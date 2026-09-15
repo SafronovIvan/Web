@@ -1,0 +1,585 @@
+/* ==================== СБРОС ==================== */
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+    background: #f5f5f7;
+    color: #1d1d1f;
+    line-height: 1.5;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+img {
+    max-width: 100%;
+    display: block;
+}
+
+button {
+    font-family: inherit;
+    cursor: pointer;
+    border: none;
+    background: none;
+}
+
+ul {
+    list-style: none;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+/* ==================== КОНТЕЙНЕР ==================== */
+.container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* ==================== ШАПКА ==================== */
+.header {
+    background: #fff;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.header__inner {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 20px;
+}
+
+.logo {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: #0071e3;
+}
+
+.cart-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: #0071e3;
+    color: #fff;
+    padding: 10px 18px;
+    border-radius: 10px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    transition: background 0.2s;
+}
+
+.cart-btn:hover {
+    background: #0060c0;
+}
+
+.cart-btn__count {
+    background: #fff;
+    color: #0071e3;
+    font-size: 0.75rem;
+    font-weight: 700;
+    min-width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 4px;
+}
+
+/* ==================== ОСНОВНОЙ КОНТЕНТ ==================== */
+.main {
+    flex: 1;
+    position: relative;
+}
+
+/* ==================== КАТАЛОГ ==================== */
+.catalog {
+    padding: 40px 20px;
+}
+
+.catalog__title {
+    font-size: 1.8rem;
+    font-weight: 700;
+    margin-bottom: 24px;
+    text-align: center;
+}
+
+.products {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 24px;
+}
+
+/* ==================== КАРТОЧКА ТОВАРА ==================== */
+.product {
+    background: #fff;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.product:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+}
+
+.product__image {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    background: #e8e8ed;
+}
+
+.product__body {
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    gap: 8px;
+}
+
+.product__name {
+    font-size: 1.05rem;
+    font-weight: 600;
+}
+
+.product__price {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: #0071e3;
+    margin-top: auto;
+}
+
+.product__btn {
+    margin-top: 8px;
+}
+
+/* ==================== КНОПКИ ==================== */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 18px;
+    border-radius: 10px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    transition: background 0.2s, opacity 0.2s;
+}
+
+.btn--primary {
+    background: #0071e3;
+    color: #fff;
+}
+
+.btn--primary:hover {
+    background: #0060c0;
+}
+
+.btn--full {
+    width: 100%;
+}
+
+/* ==================== КОРЗИНА (боковая панель) ==================== */
+.cart {
+    position: fixed;
+    top: 0;
+    right: -400px;
+    width: 380px;
+    max-width: 100%;
+    height: 100vh;
+    background: #fff;
+    box-shadow: -4px 0 24px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    transition: right 0.3s ease;
+    z-index: 200;
+}
+
+.cart.is-open {
+    right: 0;
+}
+
+.cart__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    border-bottom: 1px solid #e8e8ed;
+}
+
+.cart__title {
+    font-size: 1.3rem;
+    font-weight: 700;
+}
+
+.cart__close,
+.modal__close {
+    font-size: 1.3rem;
+    color: #86868b;
+    padding: 4px 8px;
+    border-radius: 8px;
+    transition: background 0.2s;
+}
+
+.cart__close:hover,
+.modal__close:hover {
+    background: #f5f5f7;
+}
+
+.cart__list {
+    flex: 1;
+    overflow-y: auto;
+    padding: 16px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.cart__empty {
+    text-align: center;
+    color: #86868b;
+    padding: 40px 0;
+}
+
+/* ==================== ЭЛЕМЕНТ КОРЗИНЫ ==================== */
+.cart-item {
+    display: grid;
+    grid-template-columns: 60px 1fr auto;
+    gap: 12px;
+    align-items: center;
+    padding-bottom: 16px;
+    border-bottom: 1px solid #f0f0f2;
+}
+
+.cart-item__image {
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+    border-radius: 10px;
+    background: #e8e8ed;
+}
+
+.cart-item__info {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.cart-item__name {
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+.cart-item__price {
+    font-size: 0.85rem;
+    color: #86868b;
+}
+
+.cart-item__controls {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.cart-item__btn {
+    width: 28px;
+    height: 28px;
+    border-radius: 8px;
+    background: #f5f5f7;
+    font-size: 1rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s;
+}
+
+.cart-item__btn:hover {
+    background: #e8e8ed;
+}
+
+.cart-item__qty {
+    min-width: 24px;
+    text-align: center;
+    font-weight: 600;
+    font-size: 0.95rem;
+}
+
+.cart-item__remove {
+    color: #ff3b30;
+    font-size: 0.85rem;
+    margin-top: 4px;
+    text-align: left;
+}
+
+.cart-item__remove:hover {
+    text-decoration: underline;
+}
+
+/* ==================== ПОДВАЛ КОРЗИНЫ ==================== */
+.cart__footer {
+    padding: 20px;
+    border-top: 1px solid #e8e8ed;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.cart__total {
+    font-size: 1.2rem;
+    font-weight: 700;
+    text-align: right;
+}
+
+.cart__total span {
+    color: #0071e3;
+}
+
+/* ==================== ЗАТЕМНЕНИЕ ==================== */
+.overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.4);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s, visibility 0.3s;
+    z-index: 150;
+}
+
+.overlay.is-active {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* ==================== МОДАЛЬНОЕ ОКНО ==================== */
+.modal {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s, visibility 0.3s;
+    z-index: 300;
+}
+
+.modal.is-open {
+    opacity: 1;
+    visibility: visible;
+}
+
+.modal__content {
+    background: #fff;
+    border-radius: 20px;
+    padding: 32px;
+    width: 100%;
+    max-width: 460px;
+    position: relative;
+    max-height: 90vh;
+    overflow-y: auto;
+}
+
+.modal__close {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+}
+
+.modal__title {
+    font-size: 1.4rem;
+    font-weight: 700;
+    margin-bottom: 24px;
+}
+
+/* ==================== ФОРМА ==================== */
+.form {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.form__group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.form__group label {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #1d1d1f;
+}
+
+.form__group input {
+    padding: 12px 14px;
+    border: 1px solid #d2d2d7;
+    border-radius: 10px;
+    font-size: 1rem;
+    font-family: inherit;
+    transition: border-color 0.2s;
+}
+
+.form__group input:focus {
+    outline: none;
+    border-color: #0071e3;
+}
+
+.form__group input.is-error {
+    border-color: #ff3b30;
+}
+
+/* ==================== ПОДВАЛ ==================== */
+.footer {
+    background: #fff;
+    border-top: 1px solid #e8e8ed;
+    padding: 24px 0;
+    text-align: center;
+    color: #86868b;
+    font-size: 0.9rem;
+}
+
+/* ==================== УВЕДОМЛЕНИЕ (TOAST) ==================== */
+.toast {
+    position: fixed;
+    bottom: 24px;
+    left: 50%;
+    transform: translateX(-50%) translateY(100px);
+    background: #1d1d1f;
+    color: #fff;
+    padding: 14px 24px;
+    border-radius: 12px;
+    font-size: 0.95rem;
+    font-weight: 500;
+    opacity: 0;
+    transition: transform 0.3s, opacity 0.3s;
+    z-index: 400;
+    pointer-events: none;
+}
+
+.toast.is-visible {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+}
+
+/* ==================== АДАПТИВ ==================== */
+
+/* Планшет (768px – 1023px) */
+@media (max-width: 1023px) {
+    .products {
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        gap: 20px;
+    }
+
+    .catalog__title {
+        font-size: 1.6rem;
+    }
+
+    .cart {
+        width: 340px;
+    }
+}
+
+/* Телефон (до 767px) */
+@media (max-width: 767px) {
+    .header__inner {
+        padding: 12px 16px;
+    }
+
+    .logo {
+        font-size: 1.2rem;
+    }
+
+    .cart-btn {
+        padding: 8px 14px;
+        font-size: 0.85rem;
+    }
+
+    .catalog {
+        padding: 24px 16px;
+    }
+
+    .catalog__title {
+        font-size: 1.4rem;
+        margin-bottom: 16px;
+    }
+
+    .products {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
+    }
+
+    .product__image {
+        height: 140px;
+    }
+
+    .product__body {
+        padding: 12px;
+    }
+
+    .product__name {
+        font-size: 0.9rem;
+    }
+
+    .product__price {
+        font-size: 1rem;
+    }
+
+    .product__btn {
+        padding: 8px 12px;
+        font-size: 0.85rem;
+    }
+
+    .cart {
+        width: 100%;
+        right: -100%;
+    }
+
+    .modal__content {
+        padding: 24px;
+        border-radius: 16px;
+    }
+
+    .modal__title {
+        font-size: 1.2rem;
+    }
+
+    .cart-item {
+        grid-template-columns: 50px 1fr;
+    }
+
+    .cart-item__image {
+        width: 50px;
+        height: 50px;
+    }
+
+    .cart-item__controls {
+        grid-column: 2;
+        justify-content: flex-start;
+    }
+}
+
+/* Маленькие телефоны (до 400px) */
+@media (max-width: 400px) {
+    .products {
+        grid-template-columns: 1fr;
+    }
+}
