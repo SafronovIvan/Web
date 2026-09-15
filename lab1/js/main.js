@@ -12,6 +12,20 @@ const modal = document.getElementById("modal");
 const modalClose = document.getElementById("modal-close");
 const orderForm = document.getElementById("order-form");
 
+// ==================== ЗАГЛУШКА ДЛЯ ИЗОБРАЖЕНИЙ ====================
+// Если картинка не найдена — показываем SVG-заглушку
+const FALLBACK_IMAGE =
+    "data:image/svg+xml;utf8," +
+    encodeURIComponent(`
+        <svg xmlns="http://www.w3.org/2000/svg" width="400" height="300" viewBox="0 0 400 300">
+            <rect width="400" height="300" fill="#e8e8ed"/>
+            <text x="50%" y="50%" font-family="Arial, sans-serif" font-size="18"
+                  fill="#86868b" text-anchor="middle" dominant-baseline="middle">
+                Нет изображения
+            </text>
+        </svg>
+    `);
+
 // ==================== РЕНДЕР ТОВАРОВ ====================
 function renderProducts() {
     productsEl.innerHTML = "";
@@ -21,7 +35,11 @@ function renderProducts() {
         article.className = "product";
 
         article.innerHTML = `
-            <img class="product__image" src="${product.image}" alt="${product.name}" loading="lazy">
+            <img class="product__image"
+                 src="${product.image}"
+                 alt="${product.name}"
+                 loading="lazy"
+                 onerror="this.onerror=null;this.src='${FALLBACK_IMAGE}'">
             <div class="product__body">
                 <h3 class="product__name">${product.name}</h3>
                 <p class="product__price">${product.price.toLocaleString("ru-RU")} ₽</p>
@@ -39,26 +57,24 @@ function renderProducts() {
 function renderCart() {
     const items = getCartItems();
 
-    // Обновляем счетчик
     cartCountEl.textContent = getCartCount();
-
-    // Обновляем итоговую сумму
     cartTotalEl.textContent = getCartTotal().toLocaleString("ru-RU");
 
-    // Если корзина пуста
     if (items.length === 0) {
         cartListEl.innerHTML = `<li class="cart__empty">Корзина пуста</li>`;
         return;
     }
 
-    // Рендерим товары
     cartListEl.innerHTML = "";
     items.forEach(item => {
         const li = document.createElement("li");
         li.className = "cart-item";
 
         li.innerHTML = `
-            <img class="cart-item__image" src="${item.image}" alt="${item.name}">
+            <img class="cart-item__image"
+                 src="${item.image}"
+                 alt="${item.name}"
+                 onerror="this.onerror=null;this.src='${FALLBACK_IMAGE}'">
             <div class="cart-item__info">
                 <span class="cart-item__name">${item.name}</span>
                 <span class="cart-item__price">${item.price.toLocaleString("ru-RU")} ₽</span>
@@ -122,7 +138,6 @@ function closeModal() {
 
 // ==================== ОБРАБОТЧИКИ ====================
 
-// Добавление товара (делегирование)
 productsEl.addEventListener("click", (e) => {
     const btn = e.target.closest(".product__btn");
     if (!btn) return;
@@ -133,7 +148,6 @@ productsEl.addEventListener("click", (e) => {
     showToast("Товар добавлен в корзину");
 });
 
-// Управление корзиной (делегирование)
 cartListEl.addEventListener("click", (e) => {
     const target = e.target;
 
@@ -150,12 +164,10 @@ cartListEl.addEventListener("click", (e) => {
     renderCart();
 });
 
-// Открытие корзины
 cartBtn.addEventListener("click", openCart);
 cartClose.addEventListener("click", closeCart);
 overlay.addEventListener("click", closeCart);
 
-// Оформление заказа
 checkoutBtn.addEventListener("click", () => {
     closeCart();
     openModal();
@@ -163,14 +175,12 @@ checkoutBtn.addEventListener("click", () => {
 
 modalClose.addEventListener("click", closeModal);
 
-// Закрытие модалки по клику на фон
 modal.addEventListener("click", (e) => {
     if (e.target === modal) {
         closeModal();
     }
 });
 
-// Отправка формы
 orderForm.addEventListener("submit", (e) => {
     e.preventDefault();
 
@@ -181,12 +191,10 @@ orderForm.addEventListener("submit", (e) => {
 
     let isValid = true;
 
-    // Сброс ошибок
     [name, surname, address, phone].forEach(input => {
         input.classList.remove("is-error");
     });
 
-    // Проверка полей
     if (!name.value.trim()) {
         name.classList.add("is-error");
         isValid = false;
@@ -209,7 +217,6 @@ orderForm.addEventListener("submit", (e) => {
         return;
     }
 
-    // Успех
     showToast("Заказ создан!");
     orderForm.reset();
     clearCart();

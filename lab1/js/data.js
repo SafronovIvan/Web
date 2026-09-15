@@ -1,38 +1,38 @@
 const products = [
     {
         id: 1,
-        name: "Смартфон Galaxy X",
-        price: 49990,
-        image: "https://picsum.photos/seed/phone/400/300"
+        name: "Один Ахах",
+        price: 10,
+        image: "images/01.png"
     },
     {
         id: 2,
-        name: "Ноутбук UltraBook Pro",
-        price: 89990,
-        image: "https://picsum.photos/seed/laptop/400/300"
+        name: "Забытый в земле карандаш",
+        price: 25300,
+        image: "images/02.png"
     },
     {
         id: 3,
-        name: "Наушники SoundMax",
-        price: 12990,
-        image: "https://picsum.photos/seed/headphones/400/300"
+        name: "Читы маинкрафт (точно не вирус)",
+        price: 300,
+        image: "images/03.png"
     },
     {
         id: 4,
-        name: "Умные часы FitBand",
-        price: 7990,
-        image: "https://picsum.photos/seed/watch/400/300"
+        name: "ГТА 6 - исходный код",
+        price: 1800000000,
+        image: "images/04.png"
     },
     {
         id: 5,
-        name: "Планшет TabAir",
-        price: 34990,
-        image: "https://picsum.photos/seed/tablet/400/300"
+        name: "Банона Лиза",
+        price: 500000,
+        image: "images/05.png"
     },
     {
         id: 6,
-        name: "Клавиатура MechType",
-        price: 5990,
-        image: "https://picsum.photos/seed/keyboard/400/300"
+        name: "Курс хип-хопа для котов",
+        price: 2000,
+        image: "images/06.png"
     }
 ];
